@@ -11,7 +11,7 @@ val chiselIvy       = ivy"org.chipsalliance::chisel:$chiselVersion"
 val chiselPluginIvy = ivy"org.chipsalliance:::chisel-plugin:$chiselVersion"
 val scalatestIvy    = ivy"org.scalatest::scalatest::$scalatestVersion"
 
-object %NAME% extends HasChisel with scalafmt.ScalafmtModule {
+object hello extends HasChisel with scalafmt.ScalafmtModule {
   override def millSourcePath = os.pwd / "hdl" / "chisel"
   override def moduleDeps = super.moduleDeps ++ Seq(
     // deps

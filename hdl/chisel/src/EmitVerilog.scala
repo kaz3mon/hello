@@ -1,4 +1,4 @@
-package %NAME%
+package hello
 
 import chisel3._
 import circt.stage.ChiselStage

@@ -1,7 +1,7 @@
-# %NAME%
+# hello
 
 ### Generate SystemVerilog
 
 ```bash
-$ nix develop -c mill %NAME%.runMain %NAME%.EmitVerilog
+$ nix develop -c mill hello.runMain hello.EmitVerilog
 ```
