@@ -1,0 +1,48 @@
+name: Template Cleanup
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  # Triggered on first push to repos created from the template
+  template-cleanup:
+    name: Template Cleanup
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: github.event.repository.name != 'chisel-template'
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Cleanup
+        run: |
+          export LC_CTYPE=C
+          export LANG=C
+
+          # Prepare variables
+          NAME="${GITHUB_REPOSITORY##*/}"
+
+          # Replace placeholders
+          sed -i "s/%NAME%/$NAME/g" hdl/chisel/src/EmitVerilog.scala build.sc flake.nix README.md
+
+          rm -rf \
+            .github/workflows/template-cleanup.yml \
+            LICENSE
+
+      - name: Commit
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "chore: template cleanup"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.8.0
+        with:
+          branch: dev
+          github_token: ${{ secrets.GITHUB_TOKEN }}
